@@ -136,16 +136,14 @@ const BlogSection = () => {
               }}
             >
               <div className = "blog-image">
-                <div className = "relative w-full h-64">
-                  <Image 
-                    src={blog.image} 
-                    alt={blog.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    style={{ objectFit: 'cover' }}
-                    priority={blog.id <= 2} // Only prioritize loading the first two images
-                  />
-                </div>
+                <Image 
+                  src={blog.image} 
+                  alt={blog.title}
+                  loading="lazy"
+                  decoding="async"
+                  width = {100}
+                  height = {100}
+                />
                 <span className = "blog-tag">{blog.tag}</span>
               </div>
               <div className = "blog-content">
@@ -161,7 +159,7 @@ const BlogSection = () => {
                     {blog.date}
                   </div>
                 </div>
-                <Link href="/blogs" className = "read-more">
+                <Link href = "/blogs" className = "read-more">
                   Read Full Story <FaArrowRight />
                 </Link>
               </div>

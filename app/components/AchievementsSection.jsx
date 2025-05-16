@@ -1,6 +1,6 @@
 'use client'; 
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
@@ -9,22 +9,44 @@ import Button from './Button';
 import { FaTrophy, FaCheckCircle, FaChartLine, FaUsers } from 'react-icons/fa';
 
 const AchievementsSection = () => {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef(null); 
   const counterRefs = useRef([]);
-  
-  // Parse the numeric value from achievement titles
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  // Track when the page is fully loaded
+  useEffect(() => {
+    // Check if the page is already loaded
+    if (document.readyState === 'complete') {
+      setPageLoaded(true);
+    } else {
+      // Add event listener for when the page finishes loading
+      const handleLoad = () => setPageLoaded(true);
+      window.addEventListener('load', handleLoad);
+      
+      // Clean up event listener
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
+
   const extractNumber = (title) => {
     const match = title.match(/(\d+)\+?/);
     return match ? parseInt(match[1]) : 0;
   };
   
   useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    // Only run animations when page is loaded
+    if (!pageLoaded) return;
     
-    // Animation for achievement cards
-    gsap.from('.achievement-card', {
-      opacity: 0,
-      y: 50,
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Set initial states before animation
+    gsap.set('.achievement-card', { opacity: 0, y: 50 });
+    gsap.set('.cta-container', { opacity: 0, y: 30 });
+
+    // Now animate to final states
+    gsap.to('.achievement-card', {
+      opacity: 1,
+      y: 0,
       stagger: 0.2,
       duration: 0.8,
       scrollTrigger: {
@@ -34,42 +56,43 @@ const AchievementsSection = () => {
         toggleActions: 'play none none reverse'
       }
     });
-    
-    // Counter animations for each achievement title
+
     achievements.forEach((achievement, index) => {
-      const targetNumber = extractNumber(achievement.title);
+      // Make sure the counter ref exists
+      if (!counterRefs.current[index]) return;
       
-      // Create a counter animation for each number
+      const targetNumber = extractNumber(achievement.title);
+
+      // Reset counter before animation
+      gsap.set(counterRefs.current[index], { innerHTML: '0' });
+
       let counterTween = gsap.to(counterRefs.current[index], {
         innerHTML: targetNumber,
         duration: 2,
-        snap: { innerHTML: 1 }, // Ensures the number is always an integer
+        snap: { innerHTML: 1 }, 
         ease: "power2.out",
-        paused: true, // Start paused
+        paused: true, 
         onUpdate: function() {
-          // Add the '+' symbol if it exists in the original title
-          if (achievement.title.includes('+')) {
+          // Add + sign if needed
+          if (achievement.title.includes('+') && !counterRefs.current[index].innerHTML.includes('+')) {
             counterRefs.current[index].innerHTML += '+';
           }
         }
       });
-      
-      // Create scroll trigger for the counter
+
       ScrollTrigger.create({
         trigger: counterRefs.current[index],
         start: 'top 80%',
         onEnter: () => counterTween.restart(),
         onLeaveBack: () => {
-          // Reset to 0 when scrolling back up
           gsap.set(counterRefs.current[index], { innerHTML: '0' });
         }
       });
     });
-    
-    // CTA container animation
-    gsap.from('.cta-container', {
-      opacity: 0,
-      y: 30,
+
+    gsap.to('.cta-container', {
+      opacity: 1,
+      y: 0,
       duration: 0.8,
       scrollTrigger: {
         trigger: '.cta-container',
@@ -78,7 +101,30 @@ const AchievementsSection = () => {
       }
     });
     
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [pageLoaded] }); // Re-run when pageLoaded changes
+  
+  // Apply initial styles directly to prevent flash of unstyled content
+  useEffect(() => {
+    if (!pageLoaded) {
+      const cards = document.querySelectorAll('.achievement-card');
+      const ctaContainer = document.querySelector('.cta-container');
+      
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
+      });
+      
+      if (ctaContainer) {
+        ctaContainer.style.opacity = '0';
+        ctaContainer.style.transform = 'translateY(30px)';
+      }
+      
+      // Also reset counters
+      counterRefs.current.forEach(ref => {
+        if (ref) ref.innerHTML = '0';
+      });
+    }
+  }, [pageLoaded]);
   
   const achievements = [
     {

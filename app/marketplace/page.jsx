@@ -7,7 +7,6 @@ const Marketplace = () => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
     
-    // Update page title
     document.title = 'Marketplace - Bro Science Eduservices';
   }, []);
 

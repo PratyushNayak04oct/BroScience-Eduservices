@@ -4,10 +4,9 @@ import { useEffect } from 'react';
 
 const Library = () => {
   useEffect(() => {
-    // Scroll to top on page load
+
     window.scrollTo(0, 0);
-    
-    // Update page title
+
     document.title = 'Library Resources - Bro Science Eduservices';
   }, []);
 

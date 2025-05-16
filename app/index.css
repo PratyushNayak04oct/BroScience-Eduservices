@@ -2,7 +2,6 @@
 
 @import "tailwindcss";
 
-/* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +9,6 @@
 }
 
 :root {
-  /* Color variables */
   --primary: #921212;
   --secondary: #F5C515;
   --primary-light: #a92929;
@@ -1195,10 +1193,13 @@ main {
   justify-content: center;
   font-size: 1.2rem;
   transition: all 0.3s ease;
+  margin: 12px ; 
+  z-index: 10;
 }
 
 .testimonial-nav:hover {
-  background: var(--primary-dark);
+  background: var(--secondary);
+  color: var(--text-dark);
 }
 
 .prev-button {

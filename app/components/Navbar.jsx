@@ -36,7 +36,7 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+    <nav className = {`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className = "navbar-container">
         <Link href="/" className = "navbar-logo">
           <span className = "logo-part1">Bro Science</span>
@@ -47,39 +47,39 @@ const Navbar = () => {
           {isMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
         
-        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+        <ul className = {`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li className = "nav-item">
-            <Link href="/" className={pathname === '/' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/" className = {pathname === '/' ? 'nav-link active' : 'nav-link'}>
               Home
             </Link>
           </li>
           <li className = "nav-item">
-            <Link href="/courses" className={pathname === '/courses' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/courses" className = {pathname === '/courses' ? 'nav-link active' : 'nav-link'}>
               Courses
             </Link>
           </li>
           <li className = "nav-item">
-            <Link href="/doubts" className={pathname === '/doubts' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/doubts" className = {pathname === '/doubts' ? 'nav-link active' : 'nav-link'}>
               Doubts
             </Link>
           </li>
           <li className = "nav-item">
-            <Link href="/library" className={pathname === '/library' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/library" className = {pathname === '/library' ? 'nav-link active' : 'nav-link'}>
               Library
             </Link>
           </li>
           <li className = "nav-item">
-            <Link href="/marketplace" className={pathname === '/marketplace' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/marketplace" className = {pathname === '/marketplace' ? 'nav-link active' : 'nav-link'}>
               Marketplace
             </Link>
           </li>
           <li className = "nav-item">
-            <Link href="/blogs" className={pathname === '/blogs' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/blogs" className = {pathname === '/blogs' ? 'nav-link active' : 'nav-link'}>
               Blogs
             </Link>
           </li>
           <li className = "nav-item">
-            <Link href="/contact" className={pathname === '/contact' ? 'nav-link active' : 'nav-link'}>
+            <Link href="/contact" className = {pathname === '/contact' ? 'nav-link active' : 'nav-link'}>
               Contact Us
             </Link>
           </li>

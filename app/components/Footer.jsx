@@ -47,7 +47,7 @@ const Footer = () => {
               <li><Link href="/courses">IISER & NISER Coaching</Link></li>
             </ul>
           </div>
-          
+           
           <div className = "footer-contact">
             <h3 className = "footer-title">Contact Us</h3>
             <ul>

@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { FaQuoteLeft } from 'react-icons/fa';
+import { FaQuoteLeft, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import Image from 'next/image';
 
-// Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
@@ -34,13 +33,39 @@ const testimonials = [
 export default function TestimonialsSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
   const sectionRef = useRef(null);
   const slideRef = useRef(null);
+
+  useEffect(() => {
+
+    if (document.readyState === 'complete') {
+      setPageLoaded(true);
+    } else {
+
+      const handleLoad = () => setPageLoaded(true);
+      window.addEventListener('load', handleLoad);
+      
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!pageLoaded && slideRef.current) {
+      slideRef.current.style.opacity = '0';
+      slideRef.current.style.transform = 'translateY(50px)';
+    }
+  }, [pageLoaded]);
   
   useGSAP(() => {
-    gsap.from('.testimonial-slide', {
-      opacity: 0,
-      y: 50,
+
+    if (!pageLoaded) return;
+
+    gsap.set('.testimonial-slide', { opacity: 0, y: 50 });
+
+    gsap.to('.testimonial-slide', {
+      opacity: 1,
+      y: 0,
       duration: 1,
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -49,22 +74,20 @@ export default function TestimonialsSection() {
         toggleActions: 'play none none reverse'
       }
     });
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [pageLoaded] });
 
   const animateSlideChange = (nextIndex) => {
     if (isAnimating) return;
     setIsAnimating(true);
-    
-    // First animate out the current slide
+
     gsap.to(slideRef.current, {
       opacity: 0,
       scale: 0,
       duration: 0.25,
       onComplete: () => {
-        // Update state
+
         setCurrentSlide(nextIndex);
-        
-        // Then animate in the new slide
+
         gsap.fromTo(
           slideRef.current,
           { opacity: 0, scale: 0 },
@@ -92,72 +115,49 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section ref={sectionRef} className = "py-16 bg-gray-50">
-      <div className = "container mx-auto px-4">
-        <h2 className = "text-3xl font-bold text-center mb-12">Voices of Trust</h2>
+    <section ref={sectionRef} className = "testimonials-section">
+      <div className = "container">
+        <h2 className = "section-title">Voices of Trust</h2>
         
-        <div className = "flex items-center justify-center">
-          <button 
-            className = "w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md text-gray-700 hover:bg-blue-50 mr-8 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            onClick={prevSlide} 
-            disabled={isAnimating}
-            aria-label="Previous testimonial"
-          >
-            &lt;
+        <div className = "testimonial-container">
+          <button className = "mr-12 testimonial-nav prev-button" onClick={prevSlide} disabled={isAnimating}>
+            <FaArrowLeft />
           </button>
           
-          <div 
-            className = "testimonial-slide bg-white rounded-lg shadow-lg p-8 max-w-2xl" 
-            ref={slideRef}
-          >
-            <FaQuoteLeft className = "text-4xl text-blue-500 mb-4" />
-            <p className = "text-lg text-gray-700 mb-6 italic">{testimonials[currentSlide].text}</p>
+          <div className = "testimonial-slide" ref={slideRef}>
+            <FaQuoteLeft className = "quote-icon" />
+            <p className = "testimonial-text">{testimonials[currentSlide].text}</p>
             
-            <div className = "flex items-center">
-              <div className = "w-14 h-14 rounded-full overflow-hidden relative mr-4">
-                <Image 
-                  src={testimonials[currentSlide].image} 
-                  alt={testimonials[currentSlide].name}
-                  fill
-                  sizes="56px"
-                  style={{ objectFit: 'cover' }}
-                />
+            <div className = "testimonial-author">
+              <div className = "author-image">
+                <Image height={100} width={100} src={testimonials[currentSlide].image} alt={testimonials[currentSlide].name} />
               </div>
-              <div>
-                <div className = "font-semibold text-gray-900">{testimonials[currentSlide].name}</div>
-                <div className = "text-sm text-blue-600">{testimonials[currentSlide].achievement}</div>
+              <div className = "author-info">
+                <div className = "author-name">{testimonials[currentSlide].name}</div>
+                <div className = "author-achievement">{testimonials[currentSlide].achievement}</div>
               </div>
             </div>
           </div>
-          
-          <button 
-            className = "w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md text-gray-700 hover:bg-blue-50 ml-8 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500" 
-            onClick={nextSlide} 
-            disabled={isAnimating}
-            aria-label="Next testimonial"
-          >
-            &gt;
+
+          <button className = "ml-12 testimonial-nav next-button" onClick={nextSlide} disabled={isAnimating}>
+            <FaArrowRight/>
           </button>
-        </div>
-        
-        <div className = "flex justify-center mt-8 space-x-2">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              className = {`w-3 h-3 rounded-full focus:outline-none ${
-                index === currentSlide ? 'bg-blue-600' : 'bg-gray-300 hover:bg-gray-400'
-              }`}
-              onClick={() => {
-                if (index !== currentSlide && !isAnimating) {
-                  animateSlideChange(index);
-                }
-              }}
-              aria-label={`Go to testimonial ${index + 1}`}
-              aria-current={index === currentSlide}
-            />
-          ))}
+          
+          <div className = "testimonial-controls">
+            {testimonials.map((_, index) => (
+              <div
+                key={index}
+                className = {`control-dot ${index === currentSlide ? 'active' : ''}`}
+                onClick={() => {
+                  if (index !== currentSlide && !isAnimating) {
+                    animateSlideChange(index);
+                  }
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
-}
+};

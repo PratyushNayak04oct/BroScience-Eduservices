@@ -22,10 +22,9 @@ const AboutSection = () => {
   };
 
   useGSAP(() => {
-    // Register ScrollTrigger plugin with GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-    // Animation for about text
+
     gsap.from('.about-text', {
       opacity: 0,
       y: 50,
@@ -38,7 +37,6 @@ const AboutSection = () => {
       }
     });
 
-    // Animation for stats cards
     gsap.from('.stats-card', {
       opacity: 0,
       y: 30,
@@ -52,7 +50,6 @@ const AboutSection = () => {
       }
     });
 
-    // Animation for button
     gsap.from('.about-button', {
       opacity: 0,
       y: 20,
@@ -64,15 +61,13 @@ const AboutSection = () => {
       }
     });
 
-    // Counter animation for stats numbers
     const counterElements = document.querySelectorAll('.stats-number');
     
-    // Create scroll trigger for counter animation
     ScrollTrigger.create({
       trigger: statsRef.current,
       start: 'top 80%',
       onEnter: () => {
-        if (!countersAnimated) {
+        if (!countersAnimated) { 
           counterElements.forEach(counter => {
             const targetValue = parseInt(counter.getAttribute('data-value'));
             
@@ -83,7 +78,7 @@ const AboutSection = () => {
                 innerText: targetValue,
                 duration: 2,
                 ease: 'power2.inOut',
-                snap: { innerText: 1 }, // Ensures whole numbers
+                snap: { innerText: 1 }, 
                 onUpdate: function() {
                   counter.innerText = Math.ceil(this.targets()[0].innerText) + (targetValue >= 100 || targetValue === 15 ? '+' : '');
                 }
@@ -94,7 +89,7 @@ const AboutSection = () => {
         }
       },
       onLeaveBack: () => {
-        // Reset counters when scrolling back up
+
         counterElements.forEach(counter => {
           counter.innerText = '0';
         });

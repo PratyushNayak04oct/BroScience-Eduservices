@@ -10,6 +10,7 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
 const HeroSection = () => {
   const heroRef = useRef(null);
+  const animationInitialized = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   
   // Updated with Pexels classroom images
@@ -52,28 +53,46 @@ const HeroSection = () => {
   }, []);
 
   useGSAP(() => {
-    // Initial animation for hero content
-    gsap.from('.hero-content h1', {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      delay: 0.5
-    });
+    // Only run animations if they haven't been initialized yet
+    if (!animationInitialized.current) {
+      // Set initial state immediately
+      gsap.set('.hero-content h1', { opacity: 0, y: 50 });
+      gsap.set('.hero-content p', { opacity: 0, y: 30 });
+      gsap.set('.hero-buttons', { opacity: 0, y: 30 });
+      
+      // Create a timeline for better control of animations
+      const heroTl = gsap.timeline();
+      
+      heroTl.to('.hero-content h1', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+        clearProps: 'all' // Clear props after animation completes
+      })
+      .to('.hero-content p', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+        clearProps: 'all'
+      }, '-=0.7') // Start slightly before previous animation ends
+      .to('.hero-buttons', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+        clearProps: 'all'
+      }, '-=0.7');
+      
+      animationInitialized.current = true;
+    }
     
-    gsap.from('.hero-content p', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      delay: 0.8
-    });
-    
-    gsap.from('.hero-buttons', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      delay: 1.1
-    });
-  }, []);
+    // Clean up function to prevent memory leaks
+    return () => {
+      gsap.killTweensOf(['.hero-content h1', '.hero-content p', '.hero-buttons']);
+    };
+  }, { scope: heroRef, dependencies: [] });
 
   return (
     <section ref={heroRef} className = "relative h-screen overflow-hidden">
@@ -104,7 +123,7 @@ const HeroSection = () => {
             your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ALTITUDE</span>
           </h1>
           <p className = "text-xl md:text-2xl mb-8">Join Bro Science Eduservices and reach your full potential</p>
-          <div className = "hero-buttons flex flex-col sm:flex-row gap-4 justify-center">
+          <div className = "flex flex-col sm:flex-row gap-8 justify-center hero-buttons">
             <Link href="/courses">
               <Button type="primary">Explore Courses</Button>
             </Link>
@@ -118,7 +137,7 @@ const HeroSection = () => {
       <div className = "absolute bottom-8 left-0 right-0 flex justify-center items-center gap-4 z-10">
         <button 
           onClick={prevSlide} 
-          className = "bg-[#921212] cursor-pointer text-white rounded-full w-10 h-10 flex items-center justify-center transition-all"
+          className = "bg-[#921212] cursor-pointer text-white rounded-full w-10 h-10 flex items-center justify-center transition-all hover:bg-[#F5C515] hover:text-black"
           aria-label="Previous slide"
         >
          <FaArrowLeft />
@@ -135,7 +154,7 @@ const HeroSection = () => {
         </div>
         <button 
           onClick={nextSlide} 
-          className = "bg-[#921212] cursor-pointer text-white rounded-full w-10 h-10 flex items-center justify-center transition-all"
+          className = "bg-[#921212] cursor-pointer text-white rounded-full w-10 h-10 flex items-center justify-center transition-all hover:bg-[#F5C515] hover:text-black"
           aria-label="Next slide"
         >
           <FaArrowRight />

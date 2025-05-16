@@ -12,7 +12,7 @@ export const animateSectionEntry = (elementRef) => {
     duration: 0.8,
     scrollTrigger: {
       trigger: elementRef.current,
-      start: 'top 80%',
+      start: 'top 80%', 
       end: 'bottom 70%',
       toggleActions: 'play none none reverse'
     }

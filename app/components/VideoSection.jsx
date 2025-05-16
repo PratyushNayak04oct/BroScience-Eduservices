@@ -71,7 +71,7 @@ const VideoSection = () => {
                 <div className = "stat-label">Subscribers</div>
               </div>
             </div>
-            
+             
             <Button type="secondary">Visit Our Channel</Button>
           </div>
           

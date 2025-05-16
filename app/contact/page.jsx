@@ -27,7 +27,6 @@ const Contact = () => {
 
 export default Contact;
 
-// Add metadata export for Next.js App Router
 export const metadata = {
   title: 'Contact Us - Bro Science Eduservices',
   description: "Get in touch with our team. We're here to answer your questions.",

@@ -14,10 +14,8 @@ import AchievementsSection from './components/AchievementsSection';
 
 export default function HomePage() {
   useEffect(() => {
-    // Scroll to top on page load
+
     window.scrollTo(0, 0);
-    
-    // Update page title
     document.title = 'Bro Science Eduservices - Your ATTITUDE decides your ALTITUDE.';
   }, []);
 
@@ -26,7 +24,7 @@ export default function HomePage() {
       <HeroSection />
       <QuickHighlights />
       <AboutSection />
-      <CoursesSection />
+      <CoursesSection /> 
       <FacultySection />
       <AchievementsSection />
       <TestimonialsSection />

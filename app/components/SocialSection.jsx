@@ -64,38 +64,35 @@ export default function SocialSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className = "py-16 bg-gray-50">
-      <div className = "container mx-auto px-4">
-        <h2 className = "text-3xl font-bold text-center mb-12">Connect With Us</h2>
+    <section ref={sectionRef} className = "social-section section">
+      <div className = "container">
+        <h2 className = "section-title">Connect With Us</h2>
         
-        <div className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className = "social-grid">
           {socialPlatforms.map((platform, index) => (
-            <div key={index} className = "social-card bg-white rounded-lg shadow-md p-6 flex flex-col transition-all hover:shadow-lg">
-              <div className = "text-3xl text-blue-600 mb-4">
+            <div key={index} className = "social-card">
+              <div className = "social-icon">
                 {platform.icon}
               </div>
-              <h3 className = "text-xl font-semibold mb-2">{platform.platform}</h3>
-              <p className = "text-gray-600 mb-4 flex-grow">{platform.description}</p>
-              <div className = "flex justify-between mb-4">
-                <div className = "text-center">
-                  <div className = "font-bold text-lg">{platform.followers}</div>
-                  <div className = "text-sm text-gray-500">Followers</div>
+              <h3 className = "social-platform">{platform.platform}</h3>
+              <p className = "social-description">{platform.description}</p>
+              <div className = "social-stats">
+                <div className = "stat-item">
+                  <div className = "stat-value">{platform.followers}</div>
+                  <div className = "stat-label">Followers</div>
                 </div>
-                <div className = "text-center">
-                  <div className = "font-bold text-lg">{platform.engagement}</div>
-                  <div className = "text-sm text-gray-500">Engagement</div>
+                <div className = "stat-item">
+                  <div className = "stat-value">{platform.engagement}</div>
+                  <div className = "stat-label">Engagement</div>
                 </div>
               </div>
-              <Link 
-                href={platform.link} 
-                className = "inline-flex items-center justify-between mt-auto text-blue-600 font-medium hover:text-blue-800 transition-colors"
-              >
-                Follow Us <FaArrowRight className = "ml-2" />
-              </Link>
+              <a href={platform.link} className = "hover:text-[#F5C515] social-link">
+                Follow Us <FaArrowRight />
+              </a>
             </div>
           ))}
         </div>
       </div>
     </section>
   );
-}
+};

@@ -1,14 +1,12 @@
-// app/doubts/page.js
+
 'use client';
 
 import { useEffect } from 'react';
 
 export default function DoubtsPage() {
   useEffect(() => {
-    // Scroll to top on page load
     window.scrollTo(0, 0);
-    
-    // Update page title
+
     document.title = 'Doubts Section - Bro Science Eduservices';
   }, []);
 

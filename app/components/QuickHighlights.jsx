@@ -35,7 +35,7 @@ const QuickHighlights = () => {
     <div className = "bg-[#921212] py-8 overflow-hidden" ref={marqueeRef}>
       <div className = "marquee-container flex whitespace-nowrap py-16">
         {allCourses.map((course, index) => (
-          <div 
+          <div  
             key={index} 
             className = "marquee-item inline-flex items-center mx-6 px-4 py-2 bg-white rounded-full shadow-sm"
           >
