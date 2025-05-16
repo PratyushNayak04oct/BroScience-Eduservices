@@ -61,8 +61,7 @@ const FacultySection = () => {
     });
     
   }, { scope: sectionRef, dependencies: [imagesLoaded] }); // Re-run when imagesLoaded changes
-  
-  // Make sure faculty section starts with opacity 0 before JavaScript loads
+
   useEffect(() => {
     // Apply initial styles directly to prevent flash of content
     if (!imagesLoaded) {
@@ -131,9 +130,9 @@ const FacultySection = () => {
                   width={300}
                   height={400}
                   style={{ objectFit: "cover" }}
-                  priority={true} // Load all images with priority
-                  unoptimized={true} // For external images from Pexels
-                  onLoad={handleImageLoad} // Track when images are loaded
+                  priority={true}
+                  unoptimized={true}
+                  onLoad={handleImageLoad} 
                 />
                 <div className = "faculty-social">
                   <a href="#" className = "social-icon">
