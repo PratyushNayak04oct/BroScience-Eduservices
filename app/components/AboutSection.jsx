@@ -99,6 +99,7 @@ const AboutSection = () => {
     
   }, { scope: sectionRef });
 
+
   return (
     <section ref={sectionRef} className = "about-section section">
       <div className = "container">
@@ -124,7 +125,7 @@ const AboutSection = () => {
             </p>
             
             <div className = "about-button">
-              <Link href="/courses">
+              <Link href ="/courses">
                 <Button type="primary">Discover Our Programs</Button>
               </Link>
             </div>
