@@ -50,63 +50,70 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   return (
-    <nav className = {`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className = "navbar-container">
-        <Link href="/" className = "navbar-logo">
-          <span className = "logo-part1">Bro Science</span>
-          <span className = "logo-part2">Eduservices</span>
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+      <div className="navbar-container">
+        <Link href="/" className="navbar-logo">
+          <span className="logo-part1">Bro Science</span>
+          <span className="logo-part2">Eduservices</span>
         </Link>
         
-        <div className = "menu-icon" onClick={toggleMenu}>
+        <div className="menu-icon" onClick={toggleMenu}>
           {isMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
         
-        <div className = {`mobile-nav-overlay ${isMenuOpen ? 'active' : ''}`}>
-          <div className = "mobile-nav-container">
-            <div className = "mobile-nav-header">
-              <div className = "mobile-logo">
-                <span className = "logo-part1">Bro Science</span>
-                <span className = "logo-part2">Eduservices</span>
+        <div className={`mobile-nav-overlay ${isMenuOpen ? 'active' : ''}`}>
+          <div className="mobile-nav-container">
+            <div className="mobile-nav-header">
+              <div className="mobile-logo">
+                <span className="logo-part1">Bro Science</span>
+                <span className="logo-part2">Eduservices</span>
               </div>
-              <div className = "close-icon" onClick={toggleMenu}>
+              <div className="close-icon" onClick={toggleMenu}>
                 <FaTimes />
               </div>
             </div>
             
-            <ul className = "mobile-nav-menu">
-              <li className = "nav-item">
+            <ul className="mobile-nav-menu">
+              <li className="nav-item">
                 <Link href="/" className={pathname === '/' ? 'nav-link active' : 'nav-link'}>
                   Home
+                  <span className={`nav-underline ${pathname === '/' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
-              <li className = "nav-item">
+              <li className="nav-item">
                 <Link href="/courses" className={pathname === '/courses' ? 'nav-link active' : 'nav-link'}>
                   Courses
+                  <span className={`nav-underline ${pathname === '/courses' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
-              <li className = "nav-item">
+              <li className="nav-item">
                 <Link href="/doubts" className={pathname === '/doubts' ? 'nav-link active' : 'nav-link'}>
                   Doubts
+                  <span className={`nav-underline ${pathname === '/doubts' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
-              <li className = "nav-item">
+              <li className="nav-item">
                 <Link href="/library" className={pathname === '/library' ? 'nav-link active' : 'nav-link'}>
                   Library
+                  <span className={`nav-underline ${pathname === '/library' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
-              <li className = "nav-item">
+              <li className="nav-item">
                 <Link href="/marketplace" className={pathname === '/marketplace' ? 'nav-link active' : 'nav-link'}>
                   Marketplace
+                  <span className={`nav-underline ${pathname === '/marketplace' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
-              <li className = "nav-item">
+              <li className="nav-item">
                 <Link href="/blogs" className={pathname === '/blogs' ? 'nav-link active' : 'nav-link'}>
                   Blogs
+                  <span className={`nav-underline ${pathname === '/blogs' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
-              <li className = "nav-item">
+              <li className="nav-item">
                 <Link href="/contact" className={pathname === '/contact' ? 'nav-link active' : 'nav-link'}>
                   Contact Us
+                  <span className={`nav-underline ${pathname === '/contact' ? 'active-underline' : ''}`}></span>
                 </Link>
               </li>
             </ul>
@@ -114,40 +121,47 @@ const Navbar = () => {
         </div>
         
         {/* Desktop navigation menu */}
-        <ul className = "desktop-nav-menu">
-          <li className = "nav-item">
+        <ul className="desktop-nav-menu">
+          <li className="nav-item">
             <Link href="/" className={pathname === '/' ? 'nav-link active' : 'nav-link'}>
               Home
+              <span className={`nav-underline ${pathname === '/' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
-          <li className = "nav-item">
+          <li className="nav-item">
             <Link href="/courses" className={pathname === '/courses' ? 'nav-link active' : 'nav-link'}>
               Courses
+              <span className={`nav-underline ${pathname === '/courses' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
-          <li className = "nav-item">
+          <li className="nav-item">
             <Link href="/doubts" className={pathname === '/doubts' ? 'nav-link active' : 'nav-link'}>
               Doubts
+              <span className={`nav-underline ${pathname === '/doubts' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
-          <li className = "nav-item">
+          <li className="nav-item">
             <Link href="/library" className={pathname === '/library' ? 'nav-link active' : 'nav-link'}>
               Library
+              <span className={`nav-underline ${pathname === '/library' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
-          <li className = "nav-item">
+          <li className="nav-item">
             <Link href="/marketplace" className={pathname === '/marketplace' ? 'nav-link active' : 'nav-link'}>
               Marketplace
+              <span className={`nav-underline ${pathname === '/marketplace' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
-          <li className = "nav-item">
+          <li className="nav-item">
             <Link href="/blogs" className={pathname === '/blogs' ? 'nav-link active' : 'nav-link'}>
               Blogs
+              <span className={`nav-underline ${pathname === '/blogs' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
-          <li className = "nav-item">
+          <li className="nav-item">
             <Link href="/contact" className={pathname === '/contact' ? 'nav-link active' : 'nav-link'}>
               Contact Us
+              <span className={`nav-underline ${pathname === '/contact' ? 'active-underline' : ''}`}></span>
             </Link>
           </li>
         </ul>

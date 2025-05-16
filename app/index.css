@@ -952,24 +952,60 @@ main {
   padding: 0.5rem 0.25rem;
   transition: all 0.3s ease;
   position: relative;
+  display: inline-block;
 }
 
 .nav-link:hover {
   color: var(--primary);
 }
 
+/* Remove the original active style to replace with our animated version */
 .nav-link.active {
   color: var(--primary);
 }
 
+/* Remove original after element */
 .nav-link.active::after {
-  content: '';
+  display: none;
+}
+
+/* New underline element that will be animated */
+.nav-underline {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 3px;
   background-color: var(--secondary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+/* For active menu items, show the underline by default */
+.active-underline {
+  transform: scaleX(1) !important;
+}
+
+/* CSS-only hover animation (as fallback if GSAP doesn't load) */
+.nav-link:hover .nav-underline {
+  transform: scaleX(1);
+}
+
+/* Optional: add some nice transitions for mobile nav as well */
+.mobile-nav-menu .nav-link {
+  position: relative;
+  display: inline-block;
+}
+
+.mobile-nav-menu .nav-underline {
+  bottom: -5px;
+}
+
+/* Ensure spacing for nav items on mobile to accommodate underline */
+.mobile-nav-menu .nav-item {
+  margin-bottom: 15px;
+  position: relative;
 }
 
 /* Mobile menu icon */
