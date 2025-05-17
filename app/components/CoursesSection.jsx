@@ -86,7 +86,7 @@ const CoursesSection = () => {
     },
     {
       id: 4,
-      title: 'Foundation Courses (Class 7-10)',
+      title: 'UDAAN Batch (Class 7-10)',
       description: 'Building strong fundamentals in Science and Mathematics to prepare for future academic challenges.',
       icon: <FaGraduationCap />,
       image: 'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'

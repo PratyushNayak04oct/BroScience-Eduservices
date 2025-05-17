@@ -14,7 +14,7 @@ export default function CoursesPage() {
   const courses = [
     {
       id: 1,
-      title: 'Foundation Course (Class 7-10)',
+      title: 'UDAAN Batch (Class 7-10)',
       icon: <FaBook />,
       image: 'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg',
       description: 'Our foundation course is designed to build strong fundamentals in Science and Mathematics. The program focuses on NCERT curriculum while introducing advanced concepts gradually. Features include:',
