@@ -7,14 +7,22 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import Button from './Button';
 import { FaFlask, FaMicroscope, FaCalculator, FaGraduationCap } from 'react-icons/fa';
+import { useNavigation } from './NavigationWrapper'; // Import the navigation hook
 
 const CoursesSection = () => {
   const sectionRef = useRef(null);
   const animationInitialized = useRef(false);
+  const { navigateWithLoading } = useNavigation(); // Use the navigation hook
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
   }, []);
+
+  // Handle navigation with loading
+  const handleNavigation = (e, href, pageTitle) => {
+    e.preventDefault();
+    navigateWithLoading(href, pageTitle);
+  };
   
   useGSAP(() => {
     if (!animationInitialized.current) {
@@ -109,18 +117,25 @@ const CoursesSection = () => {
               <div className = "course-content">
                 <h3 className = "course-title">{course.title}</h3>
                 <p className = "course-description">{course.description}</p>
-                <Link href="/courses" className = "learn-more">
+                <a 
+                  href="/courses" 
+                  className = "learn-more"
+                  onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+                >
                   Learn More →
-                </Link>
+                </a>
               </div>
             </div>
           ))}
         </div>
         
         <div className = "mt-12 view-all-button">
-          <Link href="/courses">
+          <a 
+            href="/courses"
+            onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+          >
             <Button type = "secondary">View All Courses</Button>
-          </Link>
+          </a>
         </div>
       </div>
     </section>

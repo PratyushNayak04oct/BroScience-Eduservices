@@ -73,12 +73,12 @@ const LoadingScreen = ({ onLoadingComplete }) => {
           setTimeout(() => {
             setIsVisible(false);
             if (onLoadingComplete) onLoadingComplete();
-          }, 500);
+          }, 200);
           return 100;
         }
-        return prev + 2.5;
+        return prev + 2; // Smoother increment: 50 updates × 2% = 100% in 1.5s
       });
-    }, 100);
+    }, 30); // Reduced interval for smoother animation
 
     const spawnNextFormula = () => {
       if (currentFormulaIndex >= formulas.length) return;
@@ -122,9 +122,9 @@ const LoadingScreen = ({ onLoadingComplete }) => {
       } else {
         clearInterval(formulaInterval);
       }
-    }, 150); // faster spawn rate
+    }, 100); // Increased from 150ms to spawn formulas faster
 
-    setTimeout(() => spawnNextFormula(), 200);
+    setTimeout(() => spawnNextFormula(), 100); // Reduced from 200ms
 
     return () => {
       clearInterval(progressInterval);

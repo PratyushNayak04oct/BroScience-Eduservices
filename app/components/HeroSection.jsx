@@ -7,11 +7,13 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import Button from './Button';
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { useNavigation } from './NavigationWrapper'; // Import the navigation hook
 
 const HeroSection = () => {
   const heroRef = useRef(null);
   const animationInitialized = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { navigateWithLoading } = useNavigation(); // Use the navigation hook
   
   // Updated with Pexels classroom images
   const sliderImages = [
@@ -34,6 +36,12 @@ const HeroSection = () => {
       photographerUrl: 'https://www.pexels.com/@pavel-danilyuk/'
     }
   ];
+
+  // Handle navigation with loading
+  const handleNavigation = (e, href, pageTitle) => {
+    e.preventDefault();
+    navigateWithLoading(href, pageTitle);
+  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev === sliderImages.length - 1 ? 0 : prev + 1));
@@ -124,12 +132,18 @@ const HeroSection = () => {
           </h1>
           <p className = "text-xl md:text-2xl mb-8">Join Bro Science Eduservices and reach your full potential</p>
           <div className = "flex flex-col sm:flex-row gap-8 justify-center hero-buttons">
-            <Link href="/courses">
+            <a 
+              href="/courses"
+              onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+            >
               <Button type="primary">Explore Courses</Button>
-            </Link>
-            <Link href="/contact">
+            </a>
+            <a 
+              href="/contact"
+              onClick={(e) => handleNavigation(e, '/contact', 'Contact Us - Bro Science Eduservices')}
+            >
               <Button type="secondary">Contact Us</Button>
-            </Link>
+            </a>
           </div>
         </div>
       </div>

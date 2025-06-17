@@ -7,11 +7,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from './Button';
 import { FaTrophy, FaCheckCircle, FaChartLine, FaUsers } from 'react-icons/fa';
+import { useNavigation } from './NavigationWrapper'; // Import the navigation hook
 
 const AchievementsSection = () => {
   const sectionRef = useRef(null); 
   const counterRefs = useRef([]);
   const [pageLoaded, setPageLoaded] = useState(false);
+  const { navigateWithLoading } = useNavigation(); // Use the navigation hook
 
   // Track when the page is fully loaded
   useEffect(() => {
@@ -27,6 +29,12 @@ const AchievementsSection = () => {
       return () => window.removeEventListener('load', handleLoad);
     }
   }, []);
+
+  // Handle navigation with loading
+  const handleNavigation = (e, href, pageTitle) => {
+    e.preventDefault();
+    navigateWithLoading(href, pageTitle);
+  };
 
   const extractNumber = (title) => {
     const match = title.match(/(\d+)\+?/);
@@ -190,9 +198,12 @@ const AchievementsSection = () => {
             At Bro Science Eduservices, we're committed to turning ambitions into achievements. 
             Our proven methodologies and expert guidance will help you reach your educational goals.
           </p>
-          <Link href="/contact">
+          <a 
+            href="/contact"
+            onClick={(e) => handleNavigation(e, '/contact', 'Contact Us - Bro Science Eduservices')}
+          >
             <Button type="secondary">Get Started Today</Button>
-          </Link>
+          </a>
         </div>
       </div>
     </section>

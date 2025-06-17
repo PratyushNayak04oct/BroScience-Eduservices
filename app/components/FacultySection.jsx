@@ -5,10 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { useNavigation } from './NavigationWrapper'; // Import the navigation hook
 
 const FacultySection = () => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const { navigateWithLoading } = useNavigation(); // Use the navigation hook
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,6 +35,12 @@ const FacultySection = () => {
 
     return () => observer.disconnect();
   }, [isVisible]);
+
+  // Handle navigation with loading
+  const handleNavigation = (e, href, pageTitle) => {
+    e.preventDefault();
+    navigateWithLoading(href, pageTitle);
+  };
   
   const faculty = [
     {
@@ -114,9 +122,12 @@ const FacultySection = () => {
         </div>
         
         <div className={`mt-12 faculty-button ${isVisible ? 'faculty-button-animate' : ''}`}>
-          <Link href="/courses">
+          <a 
+            href="/courses"
+            onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+          >
             <Button type="primary">Meet All Faculty</Button>
-          </Link>
+          </a>
         </div>
       </div>
 

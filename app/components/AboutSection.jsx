@@ -7,11 +7,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from './Button';
 import { FaBookOpen, FaUserGraduate, FaTrophy, FaClock } from 'react-icons/fa';
+import { useNavigation } from './NavigationWrapper'; // Import the navigation hook
 
 const AboutSection = () => {
   const sectionRef = useRef(null);
   const statsRef = useRef(null);
   const [countersAnimated, setCountersAnimated] = useState(false);
+  const { navigateWithLoading } = useNavigation(); // Use the navigation hook
 
   // Define the target values for each counter
   const counterValues = {
@@ -21,9 +23,14 @@ const AboutSection = () => {
     years: 15
   };
 
+  // Handle navigation with loading
+  const handleNavigation = (e, href, pageTitle) => {
+    e.preventDefault();
+    navigateWithLoading(href, pageTitle);
+  };
+
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
-
 
     gsap.from('.about-text', {
       opacity: 0,
@@ -89,7 +96,6 @@ const AboutSection = () => {
         }
       },
       onLeaveBack: () => {
-
         counterElements.forEach(counter => {
           counter.innerText = '0';
         });
@@ -98,7 +104,6 @@ const AboutSection = () => {
     });
     
   }, { scope: sectionRef });
-
 
   return (
     <section ref={sectionRef} className = "about-section section">
@@ -125,9 +130,12 @@ const AboutSection = () => {
             </p>
             
             <div className = "about-button">
-              <Link href ="/courses">
+              <a 
+                href="/courses"
+                onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+              >
                 <Button type="primary">Discover Our Programs</Button>
-              </Link>
+              </a>
             </div>
           </div>
           
