@@ -126,11 +126,11 @@ const HeroSection = () => {
       
       <div className = "relative h-full flex flex-col items-center justify-center text-white text-center px-4">
         <div className = "hero-content max-w-4xl">
-          <h1 className = "text-5xl md:text-6xl font-bold mb-6">
+          <h1 className = "text-4xl md:text-6xl font-bold mb-6">
             Your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ATTITUDE</span> decides<br /> 
             your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ALTITUDE</span>
           </h1>
-          <p className = "text-xl md:text-2xl mb-8">Join Bro Science Eduservices and reach your full potential</p>
+          <p className = "text-lg md:text-2xl mb-8">Join Bro Science Eduservices and reach your full potential</p>
           <div className = "flex flex-col sm:flex-row gap-8 justify-center hero-buttons">
             <a 
               href="/courses"
