@@ -121,7 +121,7 @@ const FacultySection = () => {
           ))}
         </div>
         
-        <div className={`faculty-button ${isVisible ? 'visible' : ''}`}>
+        <div className = {`faculty-button ${isVisible ? 'visible' : ''}`}>
           <a 
             href="/courses"
             onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
