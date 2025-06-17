@@ -17,9 +17,7 @@ const CoursesSection = () => {
   }, []);
   
   useGSAP(() => {
-
     if (!animationInitialized.current) {
-
       gsap.set('.course-card', { opacity: 0, y: 50 });
       gsap.set('.view-all-button', { opacity: 0, y: 30 });
 
@@ -28,7 +26,7 @@ const CoursesSection = () => {
           trigger: sectionRef.current,
           start: 'top 70%',
           toggleActions: 'play none none none',
-          once: false 
+          once: true // Changed to true to ensure it only runs once
         }
       });
       
@@ -38,7 +36,7 @@ const CoursesSection = () => {
         stagger: 0.2,
         duration: 0.8,
         ease: 'power2.out',
-        clearProps: 'all' 
+        clearProps: 'all'
       });
       
       gsap.to('.view-all-button', {
@@ -46,11 +44,12 @@ const CoursesSection = () => {
         y: 0,
         duration: 0.8,
         ease: 'power2.out',
-        clearProps: 'all', 
+        clearProps: 'all',
         scrollTrigger: {
           trigger: '.view-all-button',
           start: 'top 90%',
-          toggleActions: 'play none none none' 
+          toggleActions: 'play none none none',
+          once: true // Added once: true here too
         }
       });
       
