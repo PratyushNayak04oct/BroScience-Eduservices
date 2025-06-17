@@ -10,13 +10,46 @@ import { useNavigation } from './NavigationWrapper';
 const FacultySection = () => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [faculty, setFaculty] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { navigateWithLoading } = useNavigation();
+
+  // Fetch faculty from API
+  useEffect(() => {
+    const fetchFaculty = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/faculty');
+        const result = await response.json();
+        
+        if (result.success) {
+          // Take only the first 4 faculty members
+          const limitedFaculty = result.data.slice(0, 4).map(member => ({
+            ...member,
+            // Provide fallback image if not available
+            image: member.image || member.photo || 'https://images.pexels.com/photos/8617855/pexels-photo-8617855.jpeg'
+          }));
+          setFaculty(limitedFaculty);
+        } else {
+          setError('Failed to fetch faculty data');
+        }
+      } catch (err) {
+        console.error('Error fetching faculty:', err);
+        setError('Error loading faculty data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFaculty();
+  }, []);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !isVisible) {
+          if (entry.isIntersecting && !isVisible && !loading) {
             setIsVisible(true);
             observer.disconnect();
           }
@@ -28,52 +61,63 @@ const FacultySection = () => {
       }
     );
 
-    if (sectionRef.current) {
+    if (sectionRef.current && !loading) {
       observer.observe(sectionRef.current);
     }
 
     return () => observer.disconnect();
-  }, [isVisible]);
+  }, [isVisible, loading]);
 
   const handleNavigation = (e, href, pageTitle) => {
     e.preventDefault();
     navigateWithLoading(href, pageTitle);
   };
-  
-  const faculty = [
-    {
-      id: 1,
-      name: 'Dr. Rahul Sharma',
-      position: 'Physics Expert',
-      qualification: 'PhD in Theoretical Physics, IIT Delhi',
-      experience: '15+ years teaching experience',
-      image: 'https://images.pexels.com/photos/8617855/pexels-photo-8617855.jpeg'
-    },
-    {
-      id: 2,
-      name: 'Prof. Alisha Patel',
-      position: 'Chemistry Specialist',
-      qualification: 'MSc. in Chemistry, ICT Mumbai',
-      experience: '12+ years of academic excellence',
-      image: 'https://images.pexels.com/photos/5212700/pexels-photo-5212700.jpeg'
-    },
-    {
-      id: 3,
-      name: 'Mr. Vikram Desai',
-      position: 'Mathematics Genius',
-      qualification: 'M.Tech, IIT Kharagpur',
-      experience: '10+ years teaching mathematics',
-      image: 'https://images.pexels.com/photos/5212317/pexels-photo-5212317.jpeg'
-    },
-    {
-      id: 4,
-      name: 'Dr. Priya Gupta',
-      position: 'Biology Expert',
-      qualification: 'PhD in Molecular Biology, AIIMS',
-      experience: '8+ years in medical entrances',
-      image: 'https://images.pexels.com/photos/5212687/pexels-photo-5212687.jpeg'
-    }
-  ];
+
+  // Loading state
+  if (loading) {
+    return (
+      <section ref={sectionRef} className = "faculty-section section">
+        <div className = "container">
+          <h2 className = "section-title">Our Expert Faculty</h2>
+          <div className = "faculty-container">
+            {[1, 2, 3, 4].map((index) => (
+              <div key={index} className = "faculty-card">
+                <div className = "faculty-image">
+                  <div className = "animate-pulse bg-gray-300 w-full h-80 rounded-lg"></div>
+                </div>
+                <div className = "faculty-content">
+                  <div className = "h-6 bg-gray-300 animate-pulse mb-2 rounded"></div>
+                  <div className = "h-4 bg-gray-300 animate-pulse mb-2 rounded w-3/4"></div>
+                  <div className = "h-4 bg-gray-300 animate-pulse mb-2 rounded w-5/6"></div>
+                  <div className = "h-4 bg-gray-300 animate-pulse rounded w-2/3"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <section ref={sectionRef} className = "faculty-section section">
+        <div className = "container">
+          <h2 className = "section-title">Our Expert Faculty</h2>
+          <div className = "text-center py-8">
+            <p className = "text-red-600 mb-4">{error}</p>
+            <Button 
+              type="secondary" 
+              onClick={() => window.location.reload()}
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section ref={sectionRef} className = "faculty-section section">
@@ -83,7 +127,7 @@ const FacultySection = () => {
         <div className = "faculty-container">
           {faculty.map((member, index) => (
             <div 
-              key={member.id} 
+              key={member._id || member.id} 
               className={`faculty-card ${isVisible ? 'visible' : ''}`}
               style={{
                 '--animation-delay': `${index * 0.1}s`
@@ -97,31 +141,63 @@ const FacultySection = () => {
                   height={400}
                   style={{ objectFit: "cover" }}
                   priority={index < 2}
-                  quality={85} // Optimized quality
+                  quality={85}
                   placeholder="blur"
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyuwjA4YZ1A8eawWc0g2I4G4JgJ5lQoVdOvBf2q9Zzf//Z"
                   loading={index < 2 ? "eager" : "lazy"}
+                  onError={(e) => {
+                    e.target.src = 'https://images.pexels.com/photos/8617855/pexels-photo-8617855.jpeg';
+                  }}
                 />
                 <div className = "faculty-social">
-                  <a href="#" className = "social-icon">
-                    <FaLinkedin />
-                  </a>
-                  <a href="#" className = "social-icon">
-                    <FaEnvelope />
-                  </a>
+                  {member.linkedin && (
+                    <a 
+                      href={member.linkedin} 
+                      className = "social-icon"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaLinkedin />
+                    </a>
+                  )}
+                  {member.email && (
+                    <a 
+                      href={`mailto:${member.email}`} 
+                      className = "social-icon"
+                    >
+                      <FaEnvelope />
+                    </a>
+                  )}
+                  {/* Show default icons if no social links provided */}
+                  {!member.linkedin && !member.email && (
+                    <>
+                      <a href="#" className = "social-icon">
+                        <FaLinkedin />
+                      </a>
+                      <a href="#" className = "social-icon">
+                        <FaEnvelope />
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
               <div className = "faculty-content">
                 <h3 className = "faculty-name">{member.name}</h3>
-                <div className = "faculty-position">{member.position}</div>
-                <div className = "faculty-qualification">{member.qualification}</div>
-                <div className = "faculty-experience">{member.experience}</div>
+                <div className = "faculty-position">
+                  {member.position || member.subject || member.specialization}
+                </div>
+                <div className = "faculty-qualification">
+                  {member.qualification || member.education}
+                </div>
+                <div className = "faculty-experience">
+                  {member.experience || `${member.experienceYears || '5+'}+ years teaching experience`}
+                </div>
               </div>
             </div>
           ))}
         </div>
         
-        <div className = {`faculty-button ${isVisible ? 'visible' : ''}`}>
+        <div className={`faculty-button ${isVisible ? 'visible' : ''}`}>
           <a 
             href="/courses"
             onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
