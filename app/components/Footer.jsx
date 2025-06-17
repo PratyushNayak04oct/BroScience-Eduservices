@@ -1,9 +1,18 @@
-'use client'; // This is required for client-side components in Next.js 13+
+'use client';
 
 import Link from 'next/link';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaLinkedin, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { useNavigation } from './NavigationWrapper'; // Import the hook
 
 const Footer = () => {
+  const { navigateWithLoading } = useNavigation(); // Use the navigation hook
+
+  // Handle navigation with loading
+  const handleNavigation = (e, href, pageTitle) => {
+    e.preventDefault();
+    navigateWithLoading(href, pageTitle);
+  };
+
   return (
     <footer className = "footer">
       <div className = "container">
@@ -26,25 +35,116 @@ const Footer = () => {
           <div className = "footer-links">
             <h3 className = "footer-title">Quick Links</h3>
             <ul>
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/courses">Courses</Link></li>
-              <li><Link href="/doubts">Doubts</Link></li>
-              <li><Link href="/library">Library</Link></li>
-              <li><Link href="/marketplace">Marketplace</Link></li>
-              <li><Link href="/blogs">Blogs</Link></li>
-              <li><Link href="/contact">Contact Us</Link></li>
+              <li>
+                <a 
+                  href="/" 
+                  onClick={(e) => handleNavigation(e, '/', 'Home - Bro Science Eduservices')}
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+                >
+                  Courses
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/doubts" 
+                  onClick={(e) => handleNavigation(e, '/doubts', 'Doubts - Bro Science Eduservices')}
+                >
+                  Doubts
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/library" 
+                  onClick={(e) => handleNavigation(e, '/library', 'Library - Bro Science Eduservices')}
+                >
+                  Library
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/marketplace" 
+                  onClick={(e) => handleNavigation(e, '/marketplace', 'Marketplace - Bro Science Eduservices')}
+                >
+                  Marketplace
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/blogs" 
+                  onClick={(e) => handleNavigation(e, '/blogs', 'Blogs - Bro Science Eduservices')}
+                >
+                  Blogs
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/contact" 
+                  onClick={(e) => handleNavigation(e, '/contact', 'Contact Us - Bro Science Eduservices')}
+                >
+                  Contact Us
+                </a>
+              </li>
             </ul>
           </div>
           
           <div className = "footer-courses">
             <h3 className = "footer-title">Our Courses</h3>
             <ul>
-              <li><Link href="/courses">IIT JEE Preparation</Link></li>
-              <li><Link href="/courses">NEET Coaching</Link></li>
-              <li><Link href="/courses">Class 11-12 Science</Link></li>
-              <li><Link href="/courses">Foundation Courses</Link></li>
-              <li><Link href="/courses">CUET Preparation</Link></li>
-              <li><Link href="/courses">IISER & NISER Coaching</Link></li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'IIT JEE Preparation - Bro Science Eduservices')}
+                >
+                  IIT JEE Preparation
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'NEET Coaching - Bro Science Eduservices')}
+                >
+                  NEET Coaching
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'Class 11-12 Science - Bro Science Eduservices')}
+                >
+                  Class 11-12 Science
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'Foundation Courses - Bro Science Eduservices')}
+                >
+                  Foundation Courses
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'CUET Preparation - Bro Science Eduservices')}
+                >
+                  CUET Preparation
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/courses" 
+                  onClick={(e) => handleNavigation(e, '/courses', 'IISER & NISER Coaching - Bro Science Eduservices')}
+                >
+                  IISER & NISER Coaching
+                </a>
+              </li>
             </ul>
           </div>
            
