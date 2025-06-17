@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { FaFlask, FaMicroscope, FaCalculator, FaGraduationCap, FaBook, FaUniversity, FaLinkedin, FaTwitter, FaEnvelope, FaSpinner } from 'react-icons/fa';
 import "../index.css";
 
@@ -67,6 +68,82 @@ export default function CoursesPage() {
     }
   };
 
+  // const getDefaultCourses = () => {
+  //   return [
+  //     {
+  //       id: 1,
+  //       title: 'JEE Main & Advanced',
+  //       description: 'Comprehensive preparation for JEE Main and Advanced exams with expert faculty.',
+  //       image: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+  //       icon: 'FaCalculator',
+  //       features: ['Mathematics', 'Physics', 'Chemistry', 'Mock Tests']
+  //     },
+  //     {
+  //       id: 2,
+  //       title: 'NEET Preparation',
+  //       description: 'Complete NEET preparation with biology, chemistry, and physics.',
+  //       image: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+  //       icon: 'FaMicroscope',
+  //       features: ['Biology', 'Chemistry', 'Physics', 'Practice Tests']
+  //     },
+  //     {
+  //       id: 3,
+  //       title: 'Class 11 & 12 Science',
+  //       description: 'Strong foundation building for Class 11 and 12 science students.',
+  //       image: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+  //       icon: 'FaGraduationCap',
+  //       features: ['PCM/PCB', 'Regular Tests', 'Doubt Clearing', 'Exam Preparation']
+  //     }
+  //   ];
+  // };
+
+  // const getDefaultFaculty = () => {
+  //   return [
+  //     {
+  //       id: 1,
+  //       name: 'Dr. Rajesh Kumar',
+  //       position: 'Physics Faculty',
+  //       education: 'M.Sc Physics, Ph.D from IIT Delhi',
+  //       experience: '15+ years of teaching experience',
+  //       description: 'Expert in JEE Physics with innovative teaching methods.',
+  //       image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+  //       social: {
+  //         linkedin: '#',
+  //         twitter: '#',
+  //         email: '#'
+  //       }
+  //     },
+  //     {
+  //       id: 2,
+  //       name: 'Dr. Priya Sharma',
+  //       position: 'Chemistry Faculty',
+  //       education: 'M.Sc Chemistry, Ph.D from IISc Bangalore',
+  //       experience: '12+ years of teaching experience',
+  //       description: 'Specialist in organic and inorganic chemistry for competitive exams.',
+  //       image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+  //       social: {
+  //         linkedin: '#',
+  //         twitter: '#',
+  //         email: '#'
+  //       }
+  //     },
+  //     {
+  //       id: 3,
+  //       name: 'Prof. Amit Singh',
+  //       position: 'Mathematics Faculty',
+  //       education: 'M.Sc Mathematics, B.Ed',
+  //       experience: '18+ years of teaching experience',
+  //       description: 'Mathematics expert with focus on problem-solving techniques.',
+  //       image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+  //       social: {
+  //         linkedin: '#',
+  //         twitter: '#',
+  //         email: '#'
+  //       }
+  //     }
+  //   ];
+  // };
+
   if (loading) {
     return (
       <div className = "courses-page">
@@ -112,7 +189,16 @@ export default function CoursesPage() {
           {courses.map((course) => (
             <div key={course._id || course.id} className = "course-card">
               <div className = "course-image">
-                <img src={course.image} alt={course.title} />
+                <Image 
+                  src={course.image} 
+                  alt={course.title}
+                  width={400}
+                  height={300}
+                  className = "object-cover w-full h-full"
+                  priority={false}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGBkRMUUaH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/2gAMAwEAAhEDEQA/AL+AD//2Q=="
+                />
                 <div className = "course-icon">
                   {iconMap[course.icon] || <FaBook />}
                 </div>
@@ -136,7 +222,16 @@ export default function CoursesPage() {
           {faculty.map((member) => (
             <div key={member._id || member.id} className = "faculty-card">
               <div className = "faculty-image">
-                <img src={member.image} alt={member.name} />
+                <Image 
+                  src={member.image} 
+                  alt={member.name}
+                  width={300}
+                  height={300}
+                  className = "object-cover w-full h-full"
+                  priority={false}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEDEQA/AL+AD//2Q=="
+                />
                 <div className = "faculty-social">
                   <a href={member.social?.linkedin || '#'} className = "social-icon">
                     <FaLinkedin />
