@@ -3,82 +3,36 @@
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import Button from './Button';
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const FacultySection = () => {
   const sectionRef = useRef(null);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [loadedCount, setLoadedCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   
-  // Track images loaded
-  const handleImageLoad = () => {
-    setLoadedCount(prev => {
-      const newCount = prev + 1;
-      // Only set imagesLoaded to true when all 4 faculty images have loaded
-      if (newCount >= 4) {
-        setImagesLoaded(true);
-      }
-      return newCount;
-    });
-  };
-  
-  useGSAP(() => {
-    // Only run animations when images are loaded
-    if (!imagesLoaded) return;
-    
-    gsap.registerPlugin(ScrollTrigger);
-    
-    // Set initial state before animation (prevents flash of unstyled content)
-    gsap.set('.faculty-card', { opacity: 0, y: 50 });
-    gsap.set('.faculty-button', { opacity: 0, y: 30 });
-    
-    gsap.to('.faculty-card', {
-      opacity: 1,
-      y: 0,
-      stagger: 0.2,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 70%',
-        end: 'bottom 70%',
-        toggleActions: 'play none none reverse'
-      }
-    });
-    
-    gsap.to('.faculty-button', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '.faculty-button',
-        start: 'top 90%',
-        toggleActions: 'play none none reverse'
-      }
-    });
-    
-  }, { scope: sectionRef, dependencies: [imagesLoaded] }); // Re-run when imagesLoaded changes
-
   useEffect(() => {
-    // Apply initial styles directly to prevent flash of content
-    if (!imagesLoaded) {
-      const cards = document.querySelectorAll('.faculty-card');
-      const button = document.querySelector('.faculty-button');
-      
-      cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(50px)';
-      });
-      
-      if (button) {
-        button.style.opacity = '0';
-        button.style.transform = 'translateY(30px)';
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isVisible) {
+            setIsVisible(true);
+            // Disconnect observer after first trigger to prevent re-animation
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.2, // Trigger when 20% of section is visible
+        rootMargin: '0px 0px -10% 0px' // Trigger slightly before section is fully in view
       }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
-  }, [imagesLoaded]);
+
+    return () => observer.disconnect();
+  }, [isVisible]);
   
   const faculty = [
     {
@@ -121,8 +75,14 @@ const FacultySection = () => {
         <h2 className = "section-title">Our Expert Faculty</h2>
         
         <div className = "faculty-container">
-          {faculty.map((member) => (
-            <div key={member.id} className = "faculty-card">
+          {faculty.map((member, index) => (
+            <div 
+              key={member.id} 
+              className = {`faculty-card ${isVisible ? 'faculty-card-animate' : ''}`}
+              style={{
+                animationDelay: isVisible ? `${index * 0.1}s` : '0s'
+              }}
+            >
               <div className = "faculty-image">
                 <Image 
                   src={member.image} 
@@ -130,9 +90,9 @@ const FacultySection = () => {
                   width={300}
                   height={400}
                   style={{ objectFit: "cover" }}
-                  priority={true}
+                  priority={index < 2}
                   unoptimized={true}
-                  onLoad={handleImageLoad} 
+                  loading={index < 2 ? "eager" : "lazy"}
                 />
                 <div className = "faculty-social">
                   <a href="#" className = "social-icon">
@@ -153,12 +113,51 @@ const FacultySection = () => {
           ))}
         </div>
         
-        <div className = "mt-12 faculty-button">
+        <div className={`mt-12 faculty-button ${isVisible ? 'faculty-button-animate' : ''}`}>
           <Link href="/courses">
             <Button type="primary">Meet All Faculty</Button>
           </Link>
         </div>
       </div>
+
+      <style jsx>{`
+        .faculty-card {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: none;
+        }
+
+        .faculty-card-animate {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .faculty-button {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+
+        .faculty-button-animate {
+          animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Ensure smooth performance */
+        .faculty-card-animate,
+        .faculty-button-animate {
+          will-change: transform, opacity;
+        }
+
+        .faculty-card-animate.faculty-card,
+        .faculty-button-animate.faculty-button {
+          will-change: auto;
+        }
+      `}</style>
     </section>
   );
 };
