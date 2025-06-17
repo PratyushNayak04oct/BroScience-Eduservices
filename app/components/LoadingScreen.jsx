@@ -7,21 +7,41 @@ const LoadingScreen = ({ onLoadingComplete }) => {
   const [currentFormulaIndex, setCurrentFormulaIndex] = useState(0);
 
   const formulas = [
-    "x = (-b ± √(b² - 4ac)) / (2a)",
-    "a² + b² = c²",
-    "A = πr²",
-    "d/dx(xⁿ) = nxⁿ⁻¹",
-    "∫xⁿ dx = xⁿ⁺¹ / (n + 1) + C",
-    "F = ma",
-    "F = Gm₁m₂ / r²",
-    "V = IR",
-    "KE = ½mv²",
-    "W = Fd cos(θ)",
-    "PV = nRT",
-    "M = moles / volume",
-    "p = m / V",
-    "k = Ae^(-Ea / RT)",
-    "pH = -log[H⁺]"
+    "E = mc²",
+    "s = ut + ½at²",
+    "v = u + at",
+    "v² = u² + 2as",
+    "P = W / t",
+    "P = VI",
+    "λ = h / p",
+    "E = hf",
+    "n = c / v",
+    "Q = mcΔT",
+    "Q = mL",
+    "I = Q / t",
+    "a = Δv / t",
+    "S = R lnΩ",
+    "F = qE",
+    "V = W / Q",
+    "ΔU = Q - W",
+    "c² = a² + b² - 2ab cos(C)",
+    "sin²θ + cos²θ = 1",
+    "tanθ = sinθ / cosθ",
+    "log(ab) = log(a) + log(b)",
+    "log(a/b) = log(a) - log(b)",
+    "log(aⁿ) = n log(a)",
+    "e^x = 1 + x + x²/2! + x³/3! + ...",
+    "aⁿ × aᵐ = aⁿ⁺ᵐ",
+    "aⁿ / aᵐ = aⁿ⁻ᵐ",
+    "(aⁿ)ᵐ = aⁿᵐ",
+    "ΔG = ΔH - TΔS",
+    "Kp = Kc(RT)^Δn",
+    "Ecell = E°cell - (0.0591/n) logQ",
+    "pOH = -log[OH⁻]",
+    "[H⁺][OH⁻] = 1 × 10⁻¹⁴",
+    "Rate = k[A]^m[B]^n",
+    "Ka = [H⁺][A⁻] / [HA]",
+    "Kb = [OH⁻][BH⁺] / [B]"
   ];
 
   useEffect(() => {
@@ -102,7 +122,7 @@ const LoadingScreen = ({ onLoadingComplete }) => {
       } else {
         clearInterval(formulaInterval);
       }
-    }, 300); // faster spawn rate
+    }, 150); // faster spawn rate
 
     setTimeout(() => spawnNextFormula(), 200);
 
@@ -173,8 +193,8 @@ const LoadingScreen = ({ onLoadingComplete }) => {
           Eduservices
         </h2>
 
-        <div className = "text-lg italic opacity-80 font-serif">
-          "Knowledge is the foundation of all great achievements"
+        <div className = "text-lg italic opacity-80 font-serif font-bold">
+          "Your ATTITUDE decides your ALTITUDE."
         </div>
 
         <div className = "w-full max-w-md mx-auto bg-white bg-opacity-20 rounded-full overflow-hidden shadow-inner">
