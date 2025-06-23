@@ -13,6 +13,7 @@ const HeroSection = () => {
   const heroRef = useRef(null);
   const animationInitialized = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [screenHeight, setScreenHeight] = useState(0);
   const { navigateWithLoading } = useNavigation(); // Use the navigation hook
   
   // Updated with Pexels classroom images
@@ -36,6 +37,27 @@ const HeroSection = () => {
       photographerUrl: 'https://www.pexels.com/@pavel-danilyuk/'
     }
   ];
+
+  // Handle screen height changes
+  useEffect(() => {
+    const updateScreenHeight = () => {
+      setScreenHeight(window.innerHeight);
+    };
+
+    updateScreenHeight();
+    window.addEventListener('resize', updateScreenHeight);
+    
+    return () => window.removeEventListener('resize', updateScreenHeight);
+  }, []);
+
+  // Calculate dynamic height based on screen height
+  const getDynamicHeight = () => {
+    if (screenHeight > 0 && screenHeight < 700) {
+      // Add 15% more height for screens less than 700px
+      return `${screenHeight * 1.15}px`;
+    }
+    return '100vh';
+  };
 
   // Handle navigation with loading
   const handleNavigation = (e, href, pageTitle) => {
@@ -103,12 +125,16 @@ const HeroSection = () => {
   }, { scope: heroRef, dependencies: [] });
 
   return (
-    <section ref={heroRef} className = "relative h-screen overflow-hidden">
+    <section 
+      ref={heroRef} 
+      className = "relative overflow-hidden"
+      style={{ height: getDynamicHeight() }}
+    >
       <div className = "absolute inset-0 bg-[#000000]">
         {sliderImages.map((img, index) => (
           <div 
             key={index} 
-            className = {`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
           >
             <Image 
               src={img.src}
@@ -124,23 +150,35 @@ const HeroSection = () => {
         <div className = "slider-overlay"></div>
       </div>
       
-      <div className = "relative h-full flex flex-col items-center justify-center text-white text-center px-4">
-        <div className = "hero-content max-w-4xl">
-          <h1 className = "text-4xl md:text-6xl font-bold mb-6">
-            Your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ATTITUDE</span> decides<br /> 
-            your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ALTITUDE</span>
+      <div className = "relative h-full flex flex-col items-center justify-center text-white text-center px-4 sm:px-6 md:px-8">
+        <div className = "hero-content max-w-4xl w-full">
+          <h1 className={`font-bold mb-4 sm:mb-6 leading-tight ${
+            screenHeight < 700 
+              ? 'text-xl sm:text-2xl md:text-4xl lg:text-5xl' 
+              : 'text-2xl sm:text-3xl md:text-6xl'
+          }`}>
+            Your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ATTITUDE</span> decides<br className = "hidden sm:block" /> 
+            <span className = "sm:hidden"> </span>your <span style={{ textShadow: '4px 4px 8px rgba(0, 0, 0, 0.8)' }}>ALTITUDE</span>
           </h1>
-          <p className = "text-lg md:text-2xl mb-8">Join Bro Science Eduservices and reach your full potential</p>
-          <div className = "flex flex-col sm:flex-row gap-8 justify-center hero-buttons">
+          <p className={`mb-6 sm:mb-8 px-2 sm:px-0 ${
+            screenHeight < 700 
+              ? 'text-sm sm:text-base md:text-lg' 
+              : 'text-base sm:text-lg md:text-2xl'
+          }`}>
+            Join Bro Science Eduservices and reach your full potential
+          </p>
+          <div className = "flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center hero-buttons items-center">
             <a 
               href="/courses"
               onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
+              className = "w-full sm:w-auto"
             >
               <Button type="primary">Explore Courses</Button>
             </a>
             <a 
               href="/contact"
               onClick={(e) => handleNavigation(e, '/contact', 'Contact Us - Bro Science Eduservices')}
+              className = "w-full sm:w-auto"
             >
               <Button type="secondary">Contact Us</Button>
             </a>
@@ -148,19 +186,33 @@ const HeroSection = () => {
         </div>
       </div>
       
-      <div className = "absolute bottom-8 left-0 right-0 flex justify-center items-center gap-4 z-10">
+      <div className={`absolute left-0 right-0 flex justify-center items-center gap-2 sm:gap-4 z-10 px-4 ${
+        screenHeight < 700 ? 'bottom-2 sm:bottom-4' : 'bottom-4 sm:bottom-8'
+      }`}>
         <button 
           onClick={prevSlide} 
-          className = "bg-[#921212] cursor-pointer text-white rounded-full w-10 h-10 flex items-center justify-center transition-all hover:bg-[#F5C515] hover:text-black"
+          className={`bg-[#921212] cursor-pointer text-white rounded-full flex items-center justify-center transition-all hover:bg-[#F5C515] hover:text-black ${
+            screenHeight < 700 
+              ? 'w-6 h-6 sm:w-8 sm:h-8 text-xs sm:text-sm' 
+              : 'w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base'
+          }`}
           aria-label="Previous slide"
         >
          <FaArrowLeft />
         </button>
-        <div className = "flex gap-6">
+        <div className = "flex gap-3 sm:gap-6">
           {sliderImages.map((_, index) => (
             <button 
               key={index} 
-              className = {`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-[#F5C515] scale-125 cursor-pointer' : 'bg-white bg-opacity-50 cursor-pointer'}`}
+              className={`rounded-full transition-all cursor-pointer ${
+                screenHeight < 700 
+                  ? 'w-1.5 h-1.5 sm:w-2 sm:h-2' 
+                  : 'w-2 h-2 sm:w-3 sm:h-3'
+              } ${
+                index === currentSlide 
+                  ? 'bg-[#F5C515] scale-125' 
+                  : 'bg-white bg-opacity-50'
+              }`}
               onClick={() => setCurrentSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -168,7 +220,11 @@ const HeroSection = () => {
         </div>
         <button 
           onClick={nextSlide} 
-          className = "bg-[#921212] cursor-pointer text-white rounded-full w-10 h-10 flex items-center justify-center transition-all hover:bg-[#F5C515] hover:text-black"
+          className={`bg-[#921212] cursor-pointer text-white rounded-full flex items-center justify-center transition-all hover:bg-[#F5C515] hover:text-black ${
+            screenHeight < 700 
+              ? 'w-6 h-6 sm:w-8 sm:h-8 text-xs sm:text-sm' 
+              : 'w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base'
+          }`}
           aria-label="Next slide"
         >
           <FaArrowRight />
