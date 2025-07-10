@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# 🏫 BS Institute Website
 
-First, run the development server:
+An educational website for BS Institute offering academic education for classes 7–12 and competitive exam preparation for NEET, JEE, CUET, NISER, IISER, and OUAT aspirants.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev 
-# or
-bun dev
-```
+## 📌 Description
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**BS Institute Website** is a modern educational platform for students of classes 7 to 12, including coaching for NEET, JEE, CUET, NISER, IISER, and OUAT. It showcases courses, faculty, admissions, achievements, and resources in a user-friendly, responsive design.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🌐 Live Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ [View Live Site](https://bro-science-eduservices.vercel.app/)
 
-## Learn More
+## 🚀 Features
 
-To learn more about Next.js, take a look at the following resources:
+- 🎓 Class-wise Curriculum for 7 to 12
+- 🧪 NEET, JEE, CUET, NISER, IISER, OUAT Coaching Details
+- 🧑‍🏫 Faculty Profiles
+- 📝 Admission Form & Procedure
+- 🧠 Study Materials and Online Resources
+- 📈 Student Results and Achievements
+- 📅 Test Series and Mock Exam Information
+- 📰 News, Notices & Events
+- 📸 Photo Gallery
+- 💬 Testimonials
+- 📞 Contact Section with Inquiry Form
+- 🔒 Login System (optional)
+- 🎨 Visually appealing UI with brand-themed color palette
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend:** Next.js, React.js, Tailwind CSS, GSAP (for animations)
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB Atlas
+- **Deployment:** Vercel (Frontend), Render/Heroku (Backend)
+- **Storage:** Vercel Blob (for large files like PDFs, videos)
 
-## Deploy on Vercel
+## 📦 Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/bs-institute-website.git
+   cd bs-institute-website
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Add `.env.local` for MongoDB and other configs:
+   ```
+   MONGODB_URI=your_mongodb_uri
+   NEXT_PUBLIC_API_URL=http://localhost:5000
+   ```
+
+4. Run the development server:
+
+   npm run dev
+
+---
+
+## Screenshots
+
+![bro-science](https://github.com/user-attachments/assets/6b346a23-ff69-4a1a-8015-c6f51d4b3071)
+
+
+---
+
+> Designed and developed with ❤️ by Pratyush Nayak
