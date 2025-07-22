@@ -720,7 +720,7 @@ main {
 
 .footer-contact li {
   display: flex;
-  align-items: flex-start;
+  align-items: center; /* Align vertically */
   margin-bottom: 15px;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -728,7 +728,18 @@ main {
 .contact-icon {
   color: var(--secondary);
   margin-right: 10px;
-  margin-top: 5px;
+  margin-top: 0; /* Removed top margin for better alignment */
+  display: flex;
+  align-items: center;
+}
+
+.email-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  line-height: 1.5;
+}
+.email-link:hover {
+  color: var(--secondary);
 }
 
 .footer-bottom {
