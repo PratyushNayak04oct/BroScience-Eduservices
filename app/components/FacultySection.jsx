@@ -128,7 +128,7 @@ const FacultySection = () => {
           {faculty.map((member, index) => (
             <div 
               key={member._id || member.id} 
-              className={`faculty-card ${isVisible ? 'visible' : ''}`}
+              className = {`faculty-card ${isVisible ? 'visible' : ''}`}
               style={{
                 '--animation-delay': `${index * 0.1}s`
               }}
@@ -197,7 +197,7 @@ const FacultySection = () => {
           ))}
         </div>
         
-        <div className={`faculty-button ${isVisible ? 'visible' : ''}`}>
+        <div className = {`faculty-button ${isVisible ? 'visible' : ''}`}>
           <a 
             href="/courses"
             onClick={(e) => handleNavigation(e, '/courses', 'Courses - Bro Science Eduservices')}
